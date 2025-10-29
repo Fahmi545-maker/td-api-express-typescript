@@ -1,359 +1,300 @@
 
-# TD : Création d’une API avec Node.js et TypeScript
 
-Ce projet a été réalisé dansle  module **technologies web ** encadré par **M. Robert Tomczak**.
-L’objectif était de créer une **API REST** avec Node.js et TypeScript, en respectant une structure claire .
+# TD : Création d’une API REST avec Node.js et TypeScript
 
----
+Ce projet a été réalisé dans le cadre du module **Technologies du Web**, sous la direction de **M. Robert Tomczak**.
+L’objectif était de construire une **API REST complète** avec Node.js, Express et TypeScript, tout en respectant la structure imposée du TD et en effectuant les tests avec Postman et PowerShell.
 
-## 1. Objectifs du TD
 
-* Comprendre la structure d’un projet Node.js avec TypeScript.
-* Créer un serveur Express et des routes simples (GET et POST).
-* Mettre en place des contrôleurs séparés pour la logique métier.
-* Utiliser un fichier `.env` pour définir des variables d’environnement.
-* Ajouter un système de stockage (en mémoire, puis en base de données).
-* Implémenter un CRUD complet (bonus).
 
----
+##  Objectif du projet
 
-## 2. Structure du projet
+L’objectif de ce TD était de comprendre le **fonctionnement complet d’une API REST** :
 
-```
-api-node-ts/
-├── src/
-│   ├── index.ts
-│   ├── database.ts
-│   ├── controllers/
-│   │   └── user.controller.ts
-│   └── routes/
-│       └── user.routes.ts
-├── .env
-├── nodemon.json
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+* Comment le serveur reçoit et interprète une requête HTTP,
+* Comment il la redirige vers la bonne route,
+* Comment le contrôleur traite les données,
+* Et comment la réponse JSON est renvoyée au client.
 
-* **index.ts** : point d’entrée de l’application (Express + configuration des routes).
-* **user.routes.ts** : définition des routes utilisateurs (GET, POST, etc.).
-* **user.controller.ts** : logique métier (traitement des requêtes).
-* **database.ts** : gestion de la base SQLite (bonus).
-* **.env** : variables d’environnement (port du serveur).
+Le projet porte sur la **gestion d’utilisateurs (CRUD)** avec une **base de données SQLite**, afin que les données restent enregistrées même après arrêt du serveur.
 
----
 
-## 3. Étape 1 : Configuration du projet
 
-1. Initialiser le projet :
+## PARTIE 1 — De la préparation à la première exécution
 
-```bash
-npm init -y
-```
+### 1. Téléchargement ou clonage du projet
 
-2. Installer les dépendances :
 
-```bash
-npm install express dotenv
-npm install -D typescript ts-node @types/node @types/express nodemon
-```
+* **Depuis fichier ZIP :**
 
-3. Créer le fichier TypeScript :
+  1. Télécharger le fichier ZIP depuis GitHub.
+  2. Le décompresser .
+  3. Ouvrir le dossier dans **Visual Studio Code**.
+  4. Ouvrir un **nouveau terminal intégré** (`Ctrl + u`).
 
-```bash
-npx tsc --init
-```
 
-4. Configurer `tsconfig.json` :
 
-```json
-{
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "strict": true
-  }
-}
-```
+### 2. Installation de Node.js et des dépendances
 
----
+Si Node.js n’est pas encore installé :
 
-## 4. Étape 2 : Création de l’API de base
+1. Aller sur [https://nodejs.org/](https://nodejs.org/).
+2. Télécharger la version **LTS** (recommandée).
+3. Vérifier ensuite dans le terminal :
 
-### Fichier `src/index.ts`
+ 
+   node -v
+   npm -v
+ 
 
-```ts
-import express, { Request, Response } from 'express';
-import * as dotenv from 'dotenv';
-import userRoutes from './routes/user.routes';
+Ensuite, installer toutes les dépendances du projet :
 
-dotenv.config();
-const app = express();
-const PORT = process.env.PORT || 3000;
+npm install
 
-app.use(express.json());
+Cela installe automatiquement :
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('API Node.js avec TypeScript fonctionne !');
-});
+* `express` (framework de serveur web)
+* `dotenv` (variables d’environnement)
+* `typescript`, `ts-node`
+* `@types/node`, `@types/express` (typages)
+* `nodemon` (rechargement automatique)
 
-app.use('/users', userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
-```
 
----
-
-### Fichier `src/routes/user.routes.ts`
-
-```ts
-import { Router } from 'express';
-import { getUsers, addUser } from '../controllers/user.controller';
-
-const router = Router();
-
-router.get('/', getUsers);
-router.post('/', addUser);
-
-export default router;
-```
-
----
-
-### Fichier `src/controllers/user.controller.ts`
-
-```ts
-import { Request, Response } from 'express';
-
-export const getUsers = (req: Request, res: Response) => {
-  res.json({ message: 'Liste des utilisateurs' });
-};
-
-export const addUser = (req: Request, res: Response) => {
-  const { name, email } = req.body;
-  res.json({ message: `Utilisateur ${name} ajouté avec succès !`, email });
-};
-```
-
----
-
-## 5. Étape 3 : Variables d’environnement
-
-Créer un fichier `.env` à la racine :
+### 3. Configuration des  fichiers et Structure du projet : 
 
 ```
-PORT=4000
+src/
+ ├── index.ts              → point d’entrée du serveur Express
+ ├── database.ts           → gestion de la base SQLite
+ ├── controllers/
+ │     └── user.controller.ts → logique métier (ajout, lecture, suppression)
+ └── routes/
+       └── user.routes.ts     → définition des routes /users
+.env
+nodemon.json
+tsconfig.json
+package.json
 ```
 
----
+Chaque dossier a un rôle précis :
 
-## 6. Étape 4 : Configuration Nodemon
+* **index.ts** : démarre le serveur et charge les routes.
+* **routes** : gère les chemins (`GET`, `POST`, etc.).
+* **controllers** : contient les fonctions exécutées quand une route est appelée.
+* **database.ts** : initialise et gère la base de données SQLite.
 
-Fichier `nodemon.json` :
+### 4. Lancer le projet en mode développement
 
-```json
-{
-  "watch": ["src"],
-  "ext": "ts",
-  "exec": "ts-node -r dotenv/config src/index.ts"
-}
-```
+Exécuter la commande suivante dans le terminal :
 
----
-
-## 7. Étape 5 : Tests de base
-
-### a) Lancer le serveur
-
-```bash
 npm run dev
-```
 
-### b) Tester les routes
+Si tout est bien configuré, le terminal affiche :
 
-#### GET /users
 
-```bash
+ Serveur démarré sur http://localhost:4000
+
+
+Cela signifie que le  serveur fonctionne correctement.
+
+
+
+### 5. Vérifier le bon fonctionnement du serveur
+
+Ouvrez votre navigateur et entrez l’URL :
+
+http://localhost:4000/
+
+Le navigateur affiche :
+
+ API Node.js avec TypeScript fonctionne !
+
+
+C’est la preuve que votre serveur Express est opérationnel.
+
+
+
+
+
+
+##  Tests de la Partie 1
+
+L’objectif ici est de tester les deux routes principales :
+`GET /users` et `POST /users`.
+
+### 1️ Test GET /users
+
+#### a) Dans le terminal :
+
+
 curl -X GET http://localhost:4000/users
-```
 
-Réponse attendue :
 
-```json
+**Résultat attendu :**
+
+
 { "message": "Liste des utilisateurs" }
-```
 
-#### POST /users
 
-```bash
-curl -X POST http://localhost:4000/users -H "Content-Type: application/json" -d '{"name": "Alice", "email": "alice@example.com"}'
-```
-
-Réponse attendue :
-
-```json
-{
-  "message": "Utilisateur Alice ajouté avec succès !",
-  "email": "alice@example.com"
-}
-```
-
----
-
-## 8. Étape 6 : Bonus – Stockage persistant avec SQLite
-
-### Installation de SQLite
-
-```bash
-npm install sqlite3
-npm install -D @types/sqlite3
-```
-
----
-
-### Fichier `src/database.ts`
-
-```ts
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-
-export async function openDb() {
-  return open({
-    filename: './users.db',
-    driver: sqlite3.Database
-  });
-}
-```
-
----
-
-### Fichier `src/controllers/user.controller.ts` (version finale CRUD)
-
-```ts
-import { Request, Response } from 'express';
-import { openDb } from '../database';
-
-// Création automatique de la table si elle n'existe pas
-async function initDb() {
-  const db = await openDb();
-  await db.exec(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    email TEXT
-  )`);
-}
-
-// GET /users
-export const getUsers = async (req: Request, res: Response) => {
-  const db = await openDb();
-  const users = await db.all('SELECT * FROM users');
-  res.json({ users });
-};
-
-// POST /users
-export const addUser = async (req: Request, res: Response) => {
-  const { name, email } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ message: 'Nom et email requis' });
-  }
-  const db = await openDb();
-  await db.run('INSERT INTO users (name, email) VALUES (?, ?)', [name, email]);
-  res.json({ message: `Utilisateur ${name} ajouté avec succès !`, email });
-};
-
-// GET /users/:id
-export const getUserById = async (req: Request, res: Response) => {
-  const db = await openDb();
-  const user = await db.get('SELECT * FROM users WHERE id = ?', [req.params.id]);
-  res.json(user || { message: 'Utilisateur non trouvé' });
-};
-
-// PUT /users/:id
-export const updateUser = async (req: Request, res: Response) => {
-  const db = await openDb();
-  const { name, email } = req.body;
-  await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [name, email, req.params.id]);
-  res.json({ message: 'Utilisateur mis à jour avec succès' });
-};
-
-// DELETE /users/:id
-export const deleteUser = async (req: Request, res: Response) => {
-  const db = await openDb();
-  await db.run('DELETE FROM users WHERE id = ?', [req.params.id]);
-  res.json({ message: 'Utilisateur supprimé' });
-};
-
-initDb();
-```
-
----
-
-### Fichier `src/routes/user.routes.ts` (version finale CRUD)
-
-```ts
-import { Router } from 'express';
-import { getUsers, addUser, getUserById, updateUser, deleteUser } from '../controllers/user.controller';
-
-const router = Router();
-
-router.get('/', getUsers);
-router.post('/', addUser);
-router.get('/:id', getUserById);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
-
-export default router;
-```
-
----
-
-## 9. Tests CRUD (PowerShell)
-
-### Ajouter un utilisateur
-
-```powershell
-$body = @{ name = "Alice"; email = "alice@example.com" } | ConvertTo-Json
-Invoke-RestMethod -Method POST -Uri "http://localhost:4000/users" -Body $body -ContentType "application/json"
-```
-
-### Lister tous les utilisateurs
+#### b) Ou via PowerShell :
 
 ```powershell
 Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users"
 ```
 
-### Mettre à jour un utilisateur
 
-```powershell
-$body = @{ name = "Alice Dupont"; email = "alice.dupont@example.com" } | ConvertTo-Json
-Invoke-RestMethod -Method PUT -Uri "http://localhost:4000/users/1" -Body $body -ContentType "application/json"
-```
 
-### Supprimer un utilisateur
+### 2️ Test POST /users
 
-```powershell
+#### a) Avec PowerShell :
+
+
+$body = @{ name = "Alice"; email = "alice@example.com" } | ConvertTo-Json
+Invoke-RestMethod -Method POST -Uri "http://localhost:4000/users" -Body $body -ContentType "application/json"
+`
+
+**Résultat attendu :**
+
+
+{ "message": "Utilisateur Alice ajouté avec succès !", "email": "alice@example.com" }
+
+
+#### b) Avec Postman :
+
+1. Ouvrir Postman
+2. Choisir la méthode **POST**
+3. URL : `http://localhost:4000/users`
+4. Aller dans **Body → raw → JSON**
+5. Coller :
+
+
+{ "name": "Alice", "email": "alice@example.com" }
+
+
+6. Cliquer sur **Send**
+
+
+
+##  PARTIE 2 — Ajout du stockage et CRUD complet
+
+Après la première version fonctionnelle, la deuxième partie du TD consiste à :
+
+1. Ajouter un **stockage en mémoire**, puis
+2. Mettre en place une **base de données SQLite** pour garder les utilisateurs.
+
+
+
+### 1. Ajout du stockage en mémoire
+
+Le TD proposait d’abord une version simple avec un tableau `users[]` :
+
+* `GET /users` affiche la liste du tableau.
+* `POST /users` ajoute un utilisateur au tableau.
+
+**Limite :** les données disparaissent quand le serveur redémarre.
+ D’où le passage à une base de données SQLite.
+
+
+
+### 2. Mise en place de la base SQLite
+
+#### Étape 1 — Installer la base sur terminal  :
+
+
+npm install sqlite3 sqlite
+
+
+#### Étape 2 — Initialiser la table automatiquement :
+
+Lors du premier démarrage, le fichier `users.db` est créé avec la table :
+
+
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE
+);
+
+
+#### Étape 3 — Vérifier la persistance :
+
+Quand on ajoute un utilisateur, il reste dans la base même après redémarrage.
+
+##  Tests CRUD complets
+
+Les 5 routes principales sont désormais actives :
+
+| Méthode | Route        | Description                    |
+| - |  |  |
+| GET     | `/users`     | Liste tous les utilisateurs    |
+| POST    | `/users`     | Ajoute un utilisateur          |
+| GET     | `/users/:id` | Récupère un utilisateur précis |
+| PUT     | `/users/:id` | Met à jour un utilisateur      |
+| DELETE  | `/users/:id` | Supprime un utilisateur        |
+
+
+
+###  Exemple de tests PowerShell
+
+
+# 1️ Créer
+$u = @{ name = "Meriem"; email = "meriem@example.com" } | ConvertTo-Json
+Invoke-RestMethod -Method POST -Uri "http://localhost:4000/users" -Body $u -ContentType "application/json"
+
+# 2️ Lister
+Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users"
+
+# 3️ Consulter un utilisateur
+Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users/1"
+
+# 4️ Mettre à jour
+$update = @{ name = "Meriem Fahmi"; email = "fahmi@example.com" } | ConvertTo-Json
+Invoke-RestMethod -Method PUT -Uri "http://localhost:4000/users/1" -Body $update -ContentType "application/json"
+
+# 5️ Supprimer
 Invoke-RestMethod -Method DELETE -Uri "http://localhost:4000/users/1"
+
+
+###  Résultats observés
+
+* Les réponses JSON s’affichent correctement dans le terminal.
+* Les utilisateurs sont bien enregistrés dans `users.db`.
+* Les tests restent valides même après redémarrage.
+
+
+
+##  Bilan technique
+```
+| Critère                             | Description                         | Statut |
+| -- | -- |  |
+| Structure du projet                 | src/, routes/, controllers/ séparés | fait     |
+| Configuration TypeScript            | Fichier tsconfig complet et correct | fait     |
+| Routes GET/POST                     | Réponses JSON correctes             | fait     |
+| Contrôleurs typés                   | getUsers / addUser bien séparés     | fait     |
+| Gestion des données                 | Mémoire puis base SQLite            | fait     |
+| Variables d’environnement           | .env fonctionnel avec dotenv        | fait     |
+| Tests (cURL / PowerShell / Postman) | Validés                             | fait     |
+| Documentation                       | Projet clair et reproductible       | fait     |
+| Bonus                               | CRUD complet + persistance          | fait     |
 ```
 
----
+##  Conclusion personnelle
 
-## 10. Conclusion
+Ce TD m’a permis de comprendre le **fonctionnement interne d’une API REST** :
 
-Ce projet m’a permis de comprendre la création d’une API avec Node.js et TypeScript,
-d’utiliser des contrôleurs pour séparer la logique du code, et de manipuler une base de données SQLite.
+* la gestion des routes avec Express,
+* la séparation du code en couches claires (routes, contrôleurs, base),
+* l’utilisation de TypeScript pour éviter les erreurs,
+* et l’importance de tester systématiquement chaque requête.
 
-La première partie m’a appris à configurer une API simple avec Express et à gérer les requêtes HTTP.
-La seconde partie (bonus) m’a permis d’ajouter une base de données et d’implémenter un CRUD complet.
+La partie bonus avec **SQLite** m’a fait découvrir la persistance réelle des données.
+C’est un projet formateur, qui montre la logique complète d’un développement backend professionnel.
 
-Cette expérience m’a aidée à mieux comprendre le fonctionnement d’une API REST, la structure d’un projet backend,
-et les bonnes pratiques de développement en TypeScript.
--------------------------------------------------------
 
-## ✅ *Technologies Web– Université Polytechnique Hauts-de-France.*
+
+**Auteure :** Meriem Fahmi
+**Année universitaire :** 2025
+**Module :** Technologies du Web – Création d’API avec Node.js
+
 
