@@ -92,7 +92,10 @@ Si tout est bien configuré, le terminal affiche :
 
  Serveur démarré sur http://localhost:4000
 
-![Serveur démarré](images/serveurdémarré.png)
+![Serveur démarré](images/serveurdemare.png)
+
+
+
 Cela signifie que le  serveur fonctionne correctement.
 
 
@@ -293,6 +296,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
