@@ -1,7 +1,7 @@
 
 
 # TD : Création d’une API REST avec Node.js et TypeScript
-
+**Salut , Je suis Meriem Fahmi étudiante en licence informatique j'ai fait un projet d'API REST avec Node.js, Express et TypeScript.Dans ce Readme je vais vous aidez a pratiquer et créer un API en suivant les memes étapes que j'ai fait durant le TP jusqu'aux tests réalisés.**
 Ce projet a été réalisé dans le cadre du module **Technologies du Web**, sous la direction de **M. Robert Tomczak**.
 L’objectif était de construire une **API REST complète** avec Node.js, Express et TypeScript, tout en respectant la structure imposée du TD et en effectuant les tests avec Postman et PowerShell.
 Dans ce Readme je vais vous aidez a pratiquer et créer un API en suivant les memes étapes que j'ai fait durant le TP jusqu'aux tests réalisés . 
@@ -315,6 +315,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
