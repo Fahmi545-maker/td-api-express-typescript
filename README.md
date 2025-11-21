@@ -233,15 +233,16 @@ Quand on ajoute un utilisateur, il reste dans la base même après redémarrage.
 ##  Tests CRUD complets
 
 Les 5 routes principales sont désormais actives :
-```
+
 | Méthode | Route        | Description                    |
-| - |  |  |
+| --------|--------------|--------------------------------| 
 | GET     | `/users`     | Liste tous les utilisateurs    |
 | POST    | `/users`     | Ajoute un utilisateur          |
 | GET     | `/users/:id` | Récupère un utilisateur précis |
 | PUT     | `/users/:id` | Met à jour un utilisateur      |
 | DELETE  | `/users/:id` | Supprime un utilisateur        |
-```
+
+
 
 
 ###  Exemple de tests PowerShell
@@ -286,9 +287,9 @@ Invoke-RestMethod -Method DELETE -Uri "http://localhost:4000/users/1"
 
 
 ##  Bilan technique
-```
-| Critère                             | Description                         | Statut |
-| -- | -- |  |
+
+| Critère                             | Description                         | Statut   |
+| ------------------------------------|-------------------------------------|----------| 
 | Structure du projet                 | src/, routes/, controllers/ séparés | fait     |
 | Configuration TypeScript            | Fichier tsconfig complet et correct | fait     |
 | Routes GET/POST                     | Réponses JSON correctes             | fait     |
@@ -298,7 +299,7 @@ Invoke-RestMethod -Method DELETE -Uri "http://localhost:4000/users/1"
 | Tests (cURL / PowerShell / Postman) | Validés                             | fait     |
 | Documentation                       | Projet clair et reproductible       | fait     |
 | Bonus                               | CRUD complet + persistance          | fait     |
-```
+
 
 ##  Conclusion personnelle
 
@@ -317,6 +318,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
