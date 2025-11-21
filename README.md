@@ -4,8 +4,7 @@
 
 Ce projet a été réalisé dans le cadre du module **Technologies du Web**, sous la direction de **M. Robert Tomczak**.
 L’objectif était de construire une **API REST complète** avec Node.js, Express et TypeScript, tout en respectant la structure imposée du TD et en effectuant les tests avec Postman et PowerShell.
-
-
+Dans ce Readme je vais vous aidez a pratiquer et créer un API en suivant les memes étapes que j'ai fait durant le TP jusqu'aux tests réalisés . 
 
 ##  Objectif du projet
 
@@ -86,7 +85,10 @@ Chaque dossier a un rôle précis :
 
 ### 4. Lancer le projet en mode développement
 
-Exécuter la commande suivante dans le terminal :
+Exécuter la commande suivante dans le terminal et vérifier que vous etes dans le dossier contenant package.json  :
+<p align="center">
+  <img src="/mnt/data/8afe107e-6d9f-4f26-b98a-d38bb927f1e3.png" width="300">
+</p>
 
 npm run dev
 
@@ -296,6 +298,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
