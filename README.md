@@ -86,12 +86,7 @@ Chaque dossier a un rôle précis :
 ### 4. Lancer le projet en mode développement
 
 Exécuter la commande suivante dans le terminal et vérifier que vous etes dans le dossier contenant package.json  :
-<p align="center">
-  <img src="/mnt/data/8afe107e-6d9f-4f26-b98a-d38bb927f1e3.png" width="300">
-</p>
-
 npm run dev
-
 Si tout est bien configuré, le terminal affiche :
 
 
@@ -298,6 +293,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
