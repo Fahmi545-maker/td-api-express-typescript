@@ -110,6 +110,8 @@ Le navigateur affiche :
 
  API Node.js avec TypeScript fonctionne !
 
+![API Fonctionne](images/APIfonctionne.png)
+
 
 C’est la preuve que votre serveur Express est opérationnel.
 
@@ -142,7 +144,9 @@ curl -X GET http://localhost:4000/users
 ```powershell
 Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users"
 ```
+![Test GET](images/gettest.png)
 
+l'affichage de résultat peut etre different comme sur notre exemple de PowerShell(image) 
 
 
 ### 2️ Test POST /users
@@ -158,6 +162,9 @@ Invoke-RestMethod -Method POST -Uri "http://localhost:4000/users" -Body $body -C
 
 
 { "message": "Utilisateur Alice ajouté avec succès !", "email": "alice@example.com" }
+
+
+![Test POST](images/testpost.png)
 
 
 #### b) Avec Postman :
@@ -242,19 +249,31 @@ Les 5 routes principales sont désormais actives :
 $u = @{ name = "Meriem"; email = "meriem@example.com" } | ConvertTo-Json
 Invoke-RestMethod -Method POST -Uri "http://localhost:4000/users" -Body $u -ContentType "application/json"
 
+![Ajout en base](images/ajouterenbase.png)
+
 # 2️ Lister
 Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users"
 
+![Liste après création](images/listeaprescreation.png)
+
+
 # 3️ Consulter un utilisateur
 Invoke-RestMethod -Method GET -Uri "http://localhost:4000/users/1"
+
+![Consulter un utilisateur](images/consulterunutilisateur.png)
+
 
 # 4️ Mettre à jour
 $update = @{ name = "Meriem Fahmi"; email = "fahmi@example.com" } | ConvertTo-Json
 Invoke-RestMethod -Method PUT -Uri "http://localhost:4000/users/1" -Body $update -ContentType "application/json"
 
+![Update](images/update.png)
+
+
 # 5️ Supprimer
 Invoke-RestMethod -Method DELETE -Uri "http://localhost:4000/users/1"
 
+![Suppression](images/Suppression.png)
 
 ###  Résultats observés
 
@@ -296,6 +315,7 @@ C’est un projet formateur, qui montre la logique complète d’un développeme
 **Auteure :** Meriem Fahmi
 **Année universitaire :** 2025
 **Module :** Technologies du Web – Création d’API avec Node.js
+
 
 
 
